@@ -1,0 +1,89 @@
+# FINDS THE ODD DAYS FOR LAST 2 DIGITS OF AN YEAR
+
+def Odd_Cnt(year):
+    if year==0:
+        return 0
+    year-=1
+    odd=year%7
+    leap_years=year//4
+    odd_days=(odd+leap_years)%7
+    return odd_days
+
+#FINDS THE ODD DAYS FRO FIRST 2 DIGITS OF AN YEAR
+
+def Odd_Year(yr):
+    #yr=yr//100
+    if yr%4==0:
+        return 0
+    elif yr%4==1:
+        return 5
+    elif yr%4==2:
+        return 3
+    elif yr%4==3:
+        return 1
+
+##FINDS ODD NUMBER OF DAYS FOR UNDER 1000 YRS YEAR ONLY CENTURY PART
+
+def Under_Thos(year):
+    year=year//100
+    if year%4==0:
+        return 0
+    elif year%4==1:
+        return 5
+    elif year%4==2:
+        return 3
+    else:
+        return 1
+
+#FINDS THE NUMBER OF ODD DAYS FOR A PARTICULAR YEAR(SUM OF FIRST 2 DIGITS AND LAST 2 DIGITS
+
+def Year_Code(num):
+    if num>=1000:
+        first_part=num//100
+        second_part=num%100
+        century_code=Odd_Year(first_part)
+        num_code=Odd_Cnt(second_part)
+        yr_code=(century_code+num_code)%7
+        return yr_code
+    else:
+        second_part=num%100
+        century_code=Under_Thos(num)
+        num_code=Odd_Cnt(second_part)
+        yr_code=(century_code+num_code)%7
+        return yr_code
+
+#FINDS THE NUMBER OF ODD DAYS FOR A PARTICULAR DATE
+
+def Date_Code(date):
+    date%=7
+    return date
+
+#FINDS THE NUMBER OF ODD DAYS FOR A PARTICULAR MONTH
+
+def Month_Code(mnt_num):
+    mnt_code={1:0,2:3,3:3,4:6,5:1,6:4,7:6,8:2
+                ,9:5,10:0,11:3,12:3}
+    return mnt_code[mnt_num]
+
+#FINDS THE WEEK DAY TO THE RESPECTIVE PROVIDED ODD DAY
+
+def Week_Day(num):
+    week_days={0:'Sunday',1:'Monday',2:'Tuesday',3:'Wednesday',4:'Thursday',
+               5:'Friday',6:'Saturday'}
+    return week_days[num]
+
+#CHECKS FOR THE WEEK DAY FOR A GIVEN PARTICULAR DATE
+
+def Check_Week_Day(date,month,year):
+    day=(Date_Code(date)+Month_Code(month)+Year_Code(year))%7
+    if month > 2 and (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)):
+        day=(day+1)%7
+        return Week_Day(day)
+    else:
+        return Week_Day(day)
+
+
+a =int(input("enter a date: "))
+b =int(input("enter a month: "))
+c =int(input("enter an year: "))
+print(Check_Week_Day(a,b,c))
